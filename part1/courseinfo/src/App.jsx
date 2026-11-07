@@ -1,52 +1,73 @@
-import { useState } from 'react'
+const Header = (props) => {
+  console.log(props)
+  return (
+    <div>
+      <h1>{props.course.name}</h1>
+    </div>
+  )
+}
 
-const Statistics = (props) => {
-  const total = props.good + props.neutral + props.bad
-  const average = (props.good - props.bad) / total
-  const percentage = (props.good / total) * 100
+const Part = (props) => {
+  console.log(props)
 
   return (
     <div>
-      <p>good {props.good}</p>
-      <p>neutral {props.neutral}</p>
-      <p>bad {props.bad}</p>
-      <p>total {total}</p>
-      <p>average {average}</p>
-      <p>percentage {percentage}%</p>
+      <p>{props.part} {props.exercise}</p>
     </div>
   )
 
 }
+
+const Content = (props) => {
+  console.log(props)
+
+  return (
+    <div>
+      <Part part={props.course.parts[0].name} exercise={props.course.parts[0].exercises}/>
+      <Part part={props.course.parts[1].name} exercise={props.course.parts[1].exercises}/>
+      <Part part={props.course.parts[2].name} exercise={props.course.parts[2].exercises}/>
+    </div>
+  )
+}
+
+const Total = (props) => {
+  console.log(props)
+
+  return (
+    <div>
+      <p>Number of exercises {props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises} </p>
+    </div>
+  )
+}
+
 
 const App = () => {
-
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-
-  const goodBtn = () => {
-    setGood(good + 1)
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
   }
-
-  const neutralBtn = () => {
-    setNeutral(neutral + 1)
-  }
-
-  const badBtn = () => {
-    setBad(bad + 1)
-  }
-
 
   return (
     <div>
-      <h1>give feedback</h1>
-      <button onClick={goodBtn} >good</button>
-      <button onClick={neutralBtn}>neutral</button>
-      <button onClick={badBtn}>bad</button>
-      <h1>statistics</h1>
-      <Statistics good={good} neutral={neutral} bad={bad}/>
+      <Header course={course}/>
+      <Content course={course} />
+      <Total course={course}/>
     </div>
   )
 }
+
 
 export default App
